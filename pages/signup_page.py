@@ -35,7 +35,12 @@ class SignupPage:
     # 에러 메시지 locator
     EMAIL_ERROR_MESSAGE = (
         By.XPATH,
-        "//p[contains(text(), 'Email address is incorrect')]"
+        "//p[contains(text(), 'Email address is incorrect.')]"
+    )
+
+    NAME_ERROR_MESSAGE = (
+        By.XPATH,
+        "//span[contains(text(), 'Oops, Something went wrong.')]"
     )
 
     # ========== 초기화 ==========
@@ -81,6 +86,7 @@ class SignupPage:
                 self.AGREE_ALL_CHECKBOX
             )
         )
+    
 
     def get_create_account_button(self):
 
@@ -95,6 +101,13 @@ class SignupPage:
         return self.wait.until(
             EC.visibility_of_element_located(
                 self.EMAIL_ERROR_MESSAGE
+            )
+        )
+    def get_name_error_message(self):
+        
+        return self.wait.until(
+            EC.visibility_of_element_located(
+                self.NAME_ERROR_MESSAGE
             )
         )
 
@@ -116,13 +129,14 @@ class SignupPage:
     def enter_name(self, name):
         self.get_name_input().send_keys(name)
 
+    # agree all 체크 박스 클릭
     def click_agree_checkbox(self):
         checkbox = self.get_agree_checkbox()
 
         self.driver.execute_script(
             "arguments[0].click();",
             checkbox
-        )
+        )    
 
     def click_create_account_button(self):
         self.get_create_account_button().click()
