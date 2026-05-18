@@ -46,7 +46,7 @@ def login(driver, wait):
     password_input = driver.find_element(By.NAME, "password")
 
     password_input.clear()
-    password_input.send_keys("cheerup3team!!")
+    password_input.send_keys("qa3teamjs@")
 
     driver.find_element(
         By.XPATH,

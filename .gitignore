@@ -4,4 +4,5 @@ __pycache__/
 .git/
 .gitignore
 questions.md
-tests/test_mypage.py
+pages/signup_page.py
+tests/test_signup.py
