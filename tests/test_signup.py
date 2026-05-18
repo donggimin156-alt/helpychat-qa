@@ -1,3 +1,5 @@
+#### 테스트 전 ID/PW 입력 필수 ####
+
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,7 +36,7 @@ def test_check_signup_page_elements(signup):
 
 def test_signup_complete_agree_all(signup):
     """
-    [test_signup_02] 회원가입 완료 확인 - Agree All 체크
+    [test_signup_02] 회원가입 테스트 - Agree All
     """
 
     signup.enter_email("testteam3js4@test.com")
@@ -50,9 +52,27 @@ def test_signup_complete_agree_all(signup):
 
     assert "isFirstLogin=true" in signup.driver.current_url
 
+def test_signup_complete_required(signup):
+    """
+    [test_signup_03] 회원가입 동작 테스트 - 필수 약관 동의 (Required)
+    """
+    signup.enter_email("testteam3js6@test.com")
+    signup.enter_password("test1234!!")
+    signup.enter_name("김엘리스")
+
+    signup.click_age_checkbox()
+    signup.click_required_checkbox()
+    signup.click_create_account_button()
+
+    WebDriverWait(signup.driver, 10).until(
+        EC.url_contains("isFirstLogin=true")
+    )
+
+    assert "isFirstLogin=true" in signup.driver.current_url
+
 def test_invalid_email_validation(signup):
     """
-    [test_signup_03] 이메일 유효성 검사
+    [test_signup_04] 이메일 유효성 검사
     """
 
     signup.enter_email("123")
@@ -63,7 +83,7 @@ def test_invalid_email_validation(signup):
 
 def test_invalid_name_validation(signup):
     """
-    [test_signup_04] 이름 유효성 검사
+    [test_signup_05] 이름 유효성 검사
     """
     signup.enter_email("testteam3js3@test.com")
     signup.enter_password("test1234!!")

@@ -27,6 +27,16 @@ class SignupPage:
         "//span[text()='Agree all']/ancestor::label"
     )
 
+    AGE_CHECKBOX = (
+        By.XPATH,
+        "//span[contains(text(), \"I'm 14 years or older.\")]/ancestor::label"
+    )
+
+    REQ_CHECKBOXES = (
+        By.XPATH,
+        "//span[contains(text(), '[Required]')]/ancestor::label"
+    )
+
     CREATE_ACCOUNT_BUTTON = (
         By.XPATH,
         "//button[contains(text(), 'Create account')]"
@@ -87,6 +97,22 @@ class SignupPage:
             )
         )
     
+    def get_age_checkbox(self):
+
+        return self.wait.until(
+            EC.element_to_be_clickable(
+                self.AGE_CHECKBOX
+            )
+        )
+    
+    def get_required_checkboxes(self):
+
+        return self.wait.until(
+            EC.presence_of_all_elements_located(
+                self.REQ_CHECKBOXES
+            )
+        )
+    
 
     def get_create_account_button(self):
 
@@ -137,6 +163,23 @@ class SignupPage:
             "arguments[0].click();",
             checkbox
         )    
+
+    def click_age_checkbox(self):
+
+        checkbox = self.get_age_checkbox()
+
+        self.driver.execute_script(
+            "arguments[0].click();",
+            checkbox
+        )
+
+    def click_required_checkbox(self):
+        checkboxes = self.get_required_checkboxes()
+
+        for cb in checkboxes:
+            self.driver.execute_script(
+                "arguments[0].click();", cb
+            )
 
     def click_create_account_button(self):
         self.get_create_account_button().click()

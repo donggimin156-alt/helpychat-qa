@@ -41,12 +41,12 @@ def login(driver, wait):
     )
 
     email_input.clear()
-    email_input.send_keys("qa5team3-01@elicer.com")
+    email_input.send_keys("qa5team3-04@elicer.com")
 
     password_input = driver.find_element(By.NAME, "password")
 
     password_input.clear()
-    password_input.send_keys("qwer1234!")
+    password_input.send_keys("cheerup3team!!")
 
     driver.find_element(
         By.XPATH,
