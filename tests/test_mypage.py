@@ -1,5 +1,5 @@
 import pytest
-from pages.mypage_page import MyPage
+from pages.mypage_profile_page import MyPage
 
 # =========================
 # fixture
