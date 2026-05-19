@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-BASE_URL = "https://qaproject.elice.io/ai-helpy-chat"
+BASE_URL = "https://qaproject.elice.io/ai-helpy-chat/"
 
 
 # 공통 브라우저 fixture
