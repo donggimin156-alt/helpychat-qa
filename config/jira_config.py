@@ -1,12 +1,15 @@
 # config/jira_config.py
 # ── Jira 환경 설정 ────────────────────────────────────────────────
 
-JIRA_URL = "https://hihanjs.atlassian.net/"
+import os
 
-JIRA_EMAIL = "hi.hanjs@gmail.com"
+from dotenv import load_dotenv
 
-JIRA_API_TOKEN = "ATATT3xFfGF0nCXv4zBVpPQWvPkWUj7BrxsCCRPdktE13D7CpVrksEKB5gakhsA8dGzlvAIBCk3AY4RiwYDcVdDVHUXMM9s_za7wG3TefsV1JgcXW3VpTLmDob81huRmSdKSnLwDdu8VAN6IWkzdH9mE3zb2nIGFTejNN01qfh0RERgGOnG-r2c=FCB0CBBE"
+load_dotenv()
 
-JIRA_PROJECT_KEY = "FH"
+JIRA_URL = os.getenv("JIRA_URL")
+JIRA_EMAIL = os.getenv("JIRA_EMAIL")
+JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
+JIRA_PROJECT_KEY = os.getenv("JIRA_PROJECT_KEY")
 
-DEFAULT_API_TIMEOUT = 30
+DEFAULT_API_TIMEOUT = 10
