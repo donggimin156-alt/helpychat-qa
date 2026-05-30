@@ -16,7 +16,7 @@ from config.login_helpers import close_token_banner
 class BaseToolPage(BasePage):
 
     BASE_URL       = BASE_URL
-    TOOLS_URL      = "https://qaproject.elice.io/ai-helpy-chat/tools"
+    TOOLS_URL      = f"{BASE_URL}/agents"
     LOGIN_URL      = LOGIN_URL
     LOGIN_EMAIL    = TEST_USER["id"]
     LOGIN_PASSWORD = TEST_USER["pw"]
@@ -77,15 +77,12 @@ class BaseToolPage(BasePage):
         " or contains(normalize-space(text()),'받기') or contains(normalize-space(text()),'확인')]",
     )
 
-    # LNB 햄버거 메뉴 / 도구 탭
+    # LNB 햄버거 메뉴 / 에이전트 탭
     LNB_MENU_BTN   = (By.XPATH, "//button[.//*[@data-testid='barsIcon']]")
-    LNB_TOOLS_BTN  = (By.XPATH, "//span[text()='도구']")
+    LNB_TOOLS_BTN  = (By.CSS_SELECTOR, "a[href='/ai-helpy-chat/agents']")
 
-    # LNB '도구' 탭 링크
-    LNB_TOOLS_LINK = (
-        By.XPATH,
-        "//a[contains(@href,'ai-helpy-chat/tools') and not(contains(@href,'ai-helpy-chat/tools/'))]",
-    )
+    # LNB '에이전트 마켓플레이스' 탭 링크
+    LNB_TOOLS_LINK = (By.CSS_SELECTOR, "a[href='/ai-helpy-chat/agents']")
 
     # 학생 데이터 행 (헤더·푸터 제외)
     STUDENT_DATA_ROWS = (
@@ -132,7 +129,7 @@ class BaseToolPage(BasePage):
         self.go(self.TOOLS_URL)
         self.wait.until(
             EC.presence_of_element_located(
-                (By.XPATH, "//a[contains(@href,'ai-helpy-chat/tools/')]")
+                (By.XPATH, "//a[contains(@href,'ai-helpy-chat/agents/')]")
             )
         )
 
@@ -144,7 +141,7 @@ class BaseToolPage(BasePage):
             )
         )
         self.js_click(tool_btn)
-        self.wait.until(EC.url_contains("ai-helpy-chat/tools/"))
+        self.wait.until(EC.url_contains("/tools/"))
         self.logger.info(f"'{tool_name}' 클릭 완료")
         close_token_banner(self.driver, self.wait)
 
@@ -402,7 +399,7 @@ class BaseToolPage(BasePage):
         try:
             cards = self.wait.until(
                 EC.presence_of_all_elements_located(
-                    (By.XPATH, "//a[contains(@href,'ai-helpy-chat/tools/')]")
+                    (By.XPATH, "//a[contains(@href,'ai-helpy-chat/agents/')]")
                 )
             )
             self.logger.info(f"도구 목록 표시 확인 ({len(cards)}개)")
@@ -413,7 +410,7 @@ class BaseToolPage(BasePage):
     def is_on_tool_page(self) -> bool:
         """현재 URL이 특정 도구 상세 페이지인지 확인"""
         try:
-            self.wait.until(EC.url_contains("ai-helpy-chat/tools/"))
+            self.wait.until(EC.url_contains("/tools/"))
             return True
         except Exception:
             return False

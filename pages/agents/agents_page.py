@@ -19,10 +19,8 @@ class AgentsPage(BasePage):
 
     # LNB의 '에이전트 탐색' 메뉴 링크
     LNB_AGENTS_LINK = (
-        By.XPATH,
-        "//span[normalize-space(text())='에이전트 탐색'"
-        " or normalize-space(text())='Explore Agents'"
-        " or normalize-space(text())='Agents']/ancestor::a",
+        By.CSS_SELECTOR,
+        "a[href='/ai-helpy-chat/agents']",
     )
 
     # 에이전트 목록 컨테이너 (virtuoso 스크롤러)

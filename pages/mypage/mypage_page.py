@@ -7,18 +7,19 @@ import time
 from config.selenium_imports import By, EC, WebDriverWait
 
 from pages.base_page import BasePage
+from config.settings import BASE_URL, ACCOUNTS_BASE_URL
 
 
 class MyPage(BasePage):
 
     # ========== URLs ==========
-    CHAT_URL         = "https://qaproject.elice.io/ai-helpy-chat"
-    ACCOUNT_URL      = "https://accounts.elice.io/members/account"
-    ORG_URL          = "https://accounts.elice.io/members/organization"
-    LANGUAGE_URL     = "https://accounts.elice.io/members/language"
-    SUPPORT_URL      = "https://accounts.elice.io/members/support"
+    CHAT_URL         = BASE_URL
+    ACCOUNT_URL      = f"{ACCOUNTS_BASE_URL}/members/account"
+    ORG_URL          = f"{ACCOUNTS_BASE_URL}/members/organization"
+    LANGUAGE_URL     = f"{ACCOUNTS_BASE_URL}/members/language"
+    SUPPORT_URL      = f"{ACCOUNTS_BASE_URL}/members/support"
     SIGNUP_FORM_URL  = (
-        "https://accounts.elice.io/accounts/signup/form"
+        f"{ACCOUNTS_BASE_URL}/accounts/signup/form"
         "?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat"
         "&lang=ko-KR&org=qaproject"
     )
