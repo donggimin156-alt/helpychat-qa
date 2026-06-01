@@ -29,8 +29,8 @@ LONG_WAIT    = 20
 
 # ── 테스트 계정 ────────────────────────────────────────────────────
 TEST_USER = {
-    "id": os.getenv("TEST_USER_ID", "qa5team3-06@elicer.com"),
-    "pw": os.getenv("TEST_USER_PW", "qa5team3_focus"),
+    "id": os.getenv("TEST_USER_ID", "qa5team3-04@elicer.com"),
+    "pw": os.getenv("TEST_USER_PW", "qa3teamjs@"),
 }
 
 # ── 다운로드 경로 ───────────────────────────────────────────────────
