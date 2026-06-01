@@ -9,9 +9,12 @@ LOGIN_URL = (
     "?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat"
     "&lang=ko-KR&org=qaproject"
 )
-BASE_URL     = "https://qaproject.elice.io/ai-helpy-chat"
-BASE_UI_URL  = "https://qaproject.elice.io"
-BASE_API_URL = "https://dev-v2-community-api.dev.elicer.io"
+BASE_URL          = "https://qaproject.elice.io/ai-helpy-chat"
+AGENTS_URL        = f"{BASE_URL}/agents"
+CHAT_AGENT_URL    = f"{BASE_URL}/agents/e1d3633d-7448-4b94-a91b-9458f268377a"
+BASE_UI_URL       = "https://qaproject.elice.io"
+BASE_API_URL      = "https://dev-v2-community-api.dev.elicer.io"
+ACCOUNTS_BASE_URL = "https://accounts.elice.io"
 
 SIGNUP_URL = (
     "https://accounts.elice.io/accounts/signup/method"

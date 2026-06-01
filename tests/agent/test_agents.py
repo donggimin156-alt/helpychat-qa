@@ -76,12 +76,11 @@ def test_agent_features_displayed(agents_page, agent_detail_page):
       1. 에이전트 클릭 (랜덤)
     기대: 선택한 에이전트의 주요 기능이 표시된다
     """
-    with allure.step("[FHC-066] 에이전트 탐색 페이지에서 에이전트 클릭 (랜덤)"):
-        agents_page.open()
-        agent_name = agents_page.click_random_agent()
+    with allure.step("[FHC-066] 대화형 에이전트 페이지 직접 이동"):
+        agents_page.open_chat_agent()
     with allure.step("[FHC-066] 에이전트 주요 기능 표시 확인"):
         assert agent_detail_page.is_main_features_displayed(), \
-            f"에이전트 '{agent_name}' 클릭 후 주요 기능이 표시되지 않았습니다"
+            "에이전트 페이지 진입 후 주요 기능이 표시되지 않았습니다"
 
 
 @allure.story("에이전트 대화창 확인")
@@ -98,9 +97,8 @@ def test_agent_chat_via_button(agents_page, agent_detail_page):
       1. 적절한 AI 답변이 생성된다
       2. LNB 메뉴에 대화 내용이 표시된다
     """
-    with allure.step("[FHC-067] 에이전트 진입 후 퀵 리플라이 버튼 클릭"):
-        agents_page.open()
-        agents_page.click_first_agent()
+    with allure.step("[FHC-067] 대화형 에이전트 진입 후 퀵 리플라이 버튼 클릭"):
+        agents_page.open_chat_agent()
         agent_detail_page.click_quick_reply(index=0)
     with allure.step("[FHC-067] AI 답변 생성 및 LNB 대화 표시 확인"):
         assert agent_detail_page.wait_for_ai_response(), \

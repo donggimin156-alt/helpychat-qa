@@ -7,11 +7,13 @@ import random
 from config.selenium_imports import By, EC, WebDriverWait
 
 from pages.base_page import BasePage
+from config.settings import AGENTS_URL, CHAT_AGENT_URL
 
 
 class AgentsPage(BasePage):
 
-    AGENTS_URL = "https://qaproject.elice.io/ai-helpy-chat/agents"
+    AGENTS_URL     = AGENTS_URL
+    CHAT_AGENT_URL = CHAT_AGENT_URL
 
     # ========== Locators ==========
 
@@ -41,6 +43,12 @@ class AgentsPage(BasePage):
         """에이전트 탐색 페이지 직접 이동 (로그인 이후 사용)"""
         self.driver.get(self.AGENTS_URL)
         self.wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+
+    def open_chat_agent(self):
+        """대화형 에이전트 상세 페이지 직접 이동"""
+        self.driver.get(self.CHAT_AGENT_URL)
+        self.wait.until(EC.url_contains("/agents/"))
+        self.logger.info("대화형 에이전트 페이지 이동 완료")
 
     def navigate_to_base(self):
         """메인 채팅 페이지로 이동 후 페이지 로드 대기 (LNB 탭 클릭 테스트 전제 조건)"""
