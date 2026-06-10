@@ -33,6 +33,26 @@ def mypage(tools_driver_module):
     return page
 
 
+@pytest.fixture
+def restore_password(mypage):
+    """비밀번호 변경 테스트 후 원래 비밀번호로 복구 (실패해도 반드시 실행)"""
+    yield
+    mypage.navigate_to_account()
+    mypage.click_password_edit()
+    mypage.change_password(NEW_PASSWORD, MAIN_PASSWORD)
+
+
+@pytest.fixture
+def restore_toggle(mypage):
+    """프로모션 토글 테스트 후 원래 상태로 복구 (실패해도 반드시 실행)"""
+    mypage.navigate_to_account()
+    before = mypage.get_promotion_state()
+    yield
+    current = mypage.get_promotion_state()
+    if current != before:
+        mypage.toggle_promotion()
+
+
 # ── 테스트 케이스 ──────────────────────────────────────────────────
 
 @allure.story("이름 변경")
@@ -62,7 +82,7 @@ def test_change_name(mypage):
 @allure.story("비밀번호 변경")
 @allure.title("[FHC-081] 비밀번호 변경")
 @allure.severity(allure.severity_level.NORMAL)
-def test_change_password(mypage):
+def test_change_password(mypage, restore_password):
     """
     [FHC-081] 비밀번호 변경
 
@@ -71,25 +91,22 @@ def test_change_password(mypage):
       1. '계정 관리' 영역 클릭
       2. '비밀번호' 옆 수정 버튼 클릭
       3. 새 비밀번호 입력 후 저장
-      4. 검증 후 원래 비밀번호로 복구
     기대: '저장되었습니다' 메시지 출력 후 비밀번호 변경 적용됨
+    복구: restore_password fixture가 테스트 성공/실패 무관하게 원래 비밀번호 복구
     """
     with allure.step("[FHC-081] 계정 관리 페이지 이동 후 비밀번호 변경"):
         mypage.navigate_to_account()
         mypage.click_password_edit()
         mypage.change_password(MAIN_PASSWORD, NEW_PASSWORD)
-    with allure.step("[FHC-081] 저장 성공 확인 후 원래 비밀번호 복구"):
+    with allure.step("[FHC-081] 저장 성공 확인"):
         assert mypage.is_save_success_toast_displayed(), \
             "비밀번호 변경 후 '저장되었습니다' 메시지가 표시되지 않았습니다"
-        mypage.navigate_to_account()
-        mypage.click_password_edit()
-        mypage.change_password(NEW_PASSWORD, MAIN_PASSWORD)
 
 
 @allure.story("프로모션 알림 설정 변경")
 @allure.title("[FHC-082] 프로모션 알림 설정 변경")
 @allure.severity(allure.severity_level.NORMAL)
-def test_toggle_promotion(mypage):
+def test_toggle_promotion(mypage, restore_toggle):
     """
     [FHC-082] 프로모션 알림 설정 변경
 
@@ -98,9 +115,9 @@ def test_toggle_promotion(mypage):
       1. '프로모션 알림' 영역 이동
       2. '프로모션 알림 받기' 클릭
     기대: 프로모션 알림 토글 시 'Saved successfully' 메시지 출력 및 상태 변경됨
+    복구: restore_toggle fixture가 테스트 성공/실패 무관하게 원래 상태 복구
     """
     with allure.step("[FHC-082] 계정 관리 페이지 이동 후 프로모션 알림 토글"):
-        mypage.navigate_to_account()
         before = mypage.get_promotion_state()
         mypage.toggle_promotion()
     with allure.step("[FHC-082] 저장 성공 및 상태 변경 확인"):

@@ -15,7 +15,7 @@ from config.selenium_imports import WebDriverWait
 
 from config.settings import DEFAULT_WAIT, DOWNLOAD_DIR
 from config.browser_factory import make_firefox_driver, make_simple_firefox_driver
-from config.login_helpers import do_login, close_token_banner
+from config.login_helpers import do_login, do_login_cached, close_token_banner
 from utils.jira_helper import create_jira_bug_ticket, attach_image_to_jira
 
 logger = logging.getLogger(__name__)
@@ -225,9 +225,9 @@ def wait_module(driver_module):
 
 @pytest.fixture(scope="module")
 def login_module(driver_module):
-    """모듈 전체 공유 로그인 상태 — (driver, wait) 튜플"""
+    """모듈 전체 공유 로그인 상태 — (driver, wait) 튜플 / 쿠키 캐싱으로 빠른 로그인"""
     _wait = WebDriverWait(driver_module, DEFAULT_WAIT)
-    do_login(driver_module, _wait)
+    do_login_cached(driver_module, _wait)
     return driver_module, _wait
 
 

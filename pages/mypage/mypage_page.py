@@ -55,13 +55,13 @@ class MyPage(BasePage):
     # ========== 로그인 ==========
 
     def login(self, email: str = None, password: str = None):
-        """qaproject SSO 로그인 (기본: MAIN_EMAIL/MAIN_PASSWORD)"""
-        from config.login_helpers import do_login
+        """qaproject SSO 로그인 (기본: MAIN_EMAIL/MAIN_PASSWORD) — 쿠키 캐싱 적용"""
+        from config.login_helpers import do_login_cached
         user = {
             "id": email or self.MAIN_EMAIL,
             "pw": password or self.MAIN_PASSWORD,
         }
-        do_login(self.driver, self.wait, user)
+        do_login_cached(self.driver, self.wait, user)
         self.logger.info(f"로그인 성공: {user['id']}")
 
     # ========== 페이지 이동 ==========

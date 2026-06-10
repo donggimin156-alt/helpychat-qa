@@ -41,6 +41,7 @@ def login_page(driver, wait):
 
 # ── 해피패스 ──────────────────────────────────────────────────────
 
+@pytest.mark.smoke
 @allure.story("로그인 동작 확인")
 @allure.title("[FHC-006] 로그인 동작 확인 (Happy Path)")
 @allure.severity(allure.severity_level.CRITICAL)

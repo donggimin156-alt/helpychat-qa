@@ -34,6 +34,7 @@ def chat(login_module):
 
 # ── 테스트 케이스 ──────────────────────────────────────────────────
 
+@pytest.mark.smoke
 @allure.story("새 대화 탭 확인")
 @allure.title("[FHC-022] '새 대화' 탭 확인")
 @allure.severity(allure.severity_level.NORMAL)
@@ -53,6 +54,7 @@ def test_new_chat_tab_click(chat):
         "새 대화창의 기본 에이전트가 Helpy Pro Agent가 아닙니다"
 
 
+@pytest.mark.smoke
 @allure.story("AI 대화 기능 테스트")
 @allure.title("[FHC-023] AI 대화 기능 테스트")
 @allure.severity(allure.severity_level.NORMAL)

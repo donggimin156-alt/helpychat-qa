@@ -1,0 +1,68 @@
+테스트 파일,테스트 함수,결과,비고
+tests/signup/test_signup.py,test_signup_page_elements,PASSED,
+tests/signup/test_signup.py,test_signup_success[all-FHC-002],PASSED,
+tests/signup/test_signup.py,test_signup_success[required-FHC-003],PASSED,
+tests/signup/test_signup.py,test_signup_invalid_email,PASSED,
+tests/signup/test_signup.py,test_signup_invalid_name,PASSED,
+tests/login/test_login.py,test_login_success,PASSED,
+tests/login/test_login.py,test_invalid_email,PASSED,
+tests/login/test_login.py,test_password_validation_and_masking,PASSED,
+tests/login/test_login.py,test_find_password_phone_validation,PASSED,
+tests/login/test_login.py,test_login_lockout,PASSED,
+tests/login/test_login.py,test_language_reset_after_logout,XFAIL,FB-001 알려진 버그
+tests/logout/test_logout.py,test_logout_url,PASSED,
+tests/logout/test_logout.py,test_wrong_password_error,PASSED,
+tests/logout/test_logout.py,test_correct_password_relogin,PASSED,
+tests/logout/test_logout.py,test_switch_account,PASSED,
+tests/token/test_token.py,test_lnb_token_displayed,PASSED,
+tests/token/test_token.py,test_token_increases_after_chat,PASSED,
+tests/token/test_token.py,test_lnb_token_click_goes_to_settings,PASSED,
+tests/token/test_token.py,test_all_history_button,PASSED,
+tests/chat/test_chat.py,test_new_chat_tab_click,PASSED,
+tests/chat/test_chat.py,test_ai_chat_response,PASSED,
+tests/chat/test_chat.py,test_search_tab_click,PASSED,
+tests/chat/test_chat.py,test_search_keyword_results,PASSED,
+tests/chat/test_chat.py,test_search_select_existing_chat,PASSED,
+tests/chat/test_chat.py,test_lnb_chat_list_click,PASSED,
+tests/tools/test_tools_specialty.py,test_specialty_happy_case,FAILED,URL 변경 (agents 경로)
+tests/tools/test_tools_behavior.py,test_behavior_happy_case,FAILED,URL 변경 (agents 경로)
+tests/tools/test_tools_lesson.py,test_lesson_plan_happy_case,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_ppt.py,test_ppt_happy_case,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_quiz.py,test_quiz_happy_path,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_deep.py,test_deep_research_happy_path,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_deep.py,test_deep_research_is_generated,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_deep.py,test_blank_topic_error,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_deep.py,test_topic_500_chars_btn_enabled,ERROR,URL 변경 (agents 경로)
+tests/tools/test_tools_deep.py,test_topic_501_chars_btn_disabled,ERROR,URL 변경 (agents 경로)
+tests/agent/test_agents.py,test_agents_tab_click,FAILED,URL 변경
+tests/agent/test_agents.py,test_agent_features_displayed,PASSED,
+tests/agent/test_agents.py,test_agent_chat_via_button,FAILED,URL 변경
+tests/settings/test_settings_general.py,test_navigate_to_settings,PASSED,
+tests/settings/test_settings_useage.py,test_navigate_to_history_tab,PASSED,
+tests/settings/test_settings_model.py,test_activate_model,PASSED,
+tests/settings/test_settings_model.py,test_deactivate_model,PASSED,
+tests/settings/test_settings_subscription.py,test_navigate_to_subscription_tab,PASSED,
+tests/settings/test_settings_member.py,test_token_limit_disable,PASSED,
+tests/settings/test_settings_member.py,test_token_limit_enable,PASSED,
+tests/settings/test_settings_organization.py,test_non_admin_cannot_access_settings,PASSED,
+tests/mypage/test_mypage_profile.py,test_profile_dropdown_menu,PASSED,
+tests/mypage/test_mypage_profile.py,test_navigate_to_account_management,PASSED,
+tests/mypage/test_mypage_profile.py,test_change_profile_image,PASSED,
+tests/mypage/test_mypage_profile.py,test_remove_profile_image,PASSED,
+tests/mypage/test_mypage_account.py,test_change_name,PASSED,
+tests/mypage/test_mypage_account.py,test_change_password,PASSED,
+tests/mypage/test_mypage_account.py,test_toggle_promotion,PASSED,
+tests/mypage/test_mypage_account.py,test_change_language,PASSED,
+tests/mypage/test_mypage_withdraw.py,test_withdraw_happy_case,PASSED,
+tests/mypage/test_mypage_organization.py,test_org_info_displayed,PASSED,
+tests/mypage/test_mypage_organization.py,test_qaproject_link,PASSED,
+tests/mypage/test_mypage_organization.py,test_help_center_link,PASSED,
+tests/mypage/test_mypage_language.py,test_language_setting,PASSED,
+tests/mypage/test_mypage_language.py,test_logout_shows_language_login_page,XFAIL,FB-001 알려진 버그
+tests/mypage/test_mypage_language.py,test_language_maintained_after_relogin,PASSED,
+tests/mypage/test_mypage_support.py,test_customer_service_ai,PASSED,
+performance/test_settings_load.py,test_tab_load,PASSED,
+performance/test_chat_load.py,test_chat_load,PASSED,
+performance/test_login_load.py,test_login_logout_load,PASSED,
+performance/test_mypage_load.py,test_mypage_tab_load,PASSED,
+performance/test_token_load.py,test_token_page_load,PASSED,

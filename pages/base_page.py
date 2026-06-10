@@ -4,7 +4,7 @@
 import logging
 import time
 
-from config.selenium_imports import By, EC, WebDriverWait
+from config.selenium_imports import By, EC, WebDriverWait, TimeoutException
 from config.login_helpers import close_token_banner
 
 class BasePage:
@@ -86,7 +86,7 @@ class BasePage:
                     (By.CLASS_NAME, "MuiBackdrop-root")
                 )
             )
-        except Exception:
+        except TimeoutException:
             pass
 
     def wait_dropdown_closed(self, timeout=5):
@@ -97,7 +97,7 @@ class BasePage:
                     (By.XPATH, "//ul[@role='listbox']")
                 )
             )
-        except Exception:
+        except TimeoutException:
             pass
 
     def wait_dialog_gone(self, timeout=10):
@@ -108,6 +108,6 @@ class BasePage:
                     (By.CSS_SELECTOR, "h2.MuiDialogTitle-root")
                 )
             )
-        except Exception:
+        except TimeoutException:
             pass
         time.sleep(0.3)

@@ -1,0 +1,10 @@
+개선 항목,내용,절감 시간,비고
+module scope - chat,6개 테스트 → 로그인 1회 공유,51.5초,setup 10.30s × 5회 절감
+module scope - token,4개 테스트 → 로그인 1회 공유,34.2초,setup 11.40s × 3회 절감
+module scope - mypage_account,4개 테스트 → 로그인 1회 공유,29.8초,setup 9.95s × 3회 절감
+module scope - mypage_organization,3개 테스트 → 로그인 1회 공유,19.8초,setup 9.91s × 2회 절감
+module scope - settings_model,2개 테스트 → 로그인 1회 공유,14.9초,setup 14.91s × 1회 절감
+module scope - settings_member,2개 테스트 → 로그인 1회 공유,11.6초,setup 11.61s × 1회 절감
+module scope 합계,,162초 (2분 42초),
+SHORT_WAIT 단축,5초 → 2초 (3초 절감),72초,24개 모듈 × 3초
+총 절감 합계,,234초 (3분 54초),
