@@ -62,4 +62,31 @@ test.describe('[FHC-022~027] 채팅', () => {
     await chatPage.enterSearchKeyword(SEARCH_KEYWORD)
     await chatPage.isSearchResultsDisplayed()
   })
+
+  test('[FHC-026] 검색 결과 → 기존 대화 선택', async ({ page }) => {
+    const chatPage = new ChatPage(page)
+    await chatPage.clickSearch()
+    await chatPage.enterSearchKeyword(SEARCH_KEYWORD)
+    await chatPage.isSearchResultsDisplayed()
+
+    // 첫 번째 검색 결과 클릭
+    await chatPage.searchResults.first().click()
+
+    // 대화 상세 화면으로 전환 확인
+    await expect(page).toHaveURL(/chats\//, { timeout: 10000 })
+  })
+
+  test('[FHC-027] LNB 대화 목록 확인 및 클릭', async ({ page }) => {
+    const chatPage = new ChatPage(page)
+
+    // LNB 대화 목록 표시 확인
+    // Selenium: driver.find_elements() → assert len > 0
+    // Playwright: expect(locator).not.toHaveCount(0)
+    const lnbChatList = page.locator('nav a[href*="chats/"], [class*="chat-list"] a').first()
+    await expect(lnbChatList).toBeVisible({ timeout: 10000 })
+
+    // 랜덤 대화 클릭 → 상세 화면 전환 확인
+    await lnbChatList.click()
+    await expect(page).toHaveURL(/chats\//, { timeout: 10000 })
+  })
 })
