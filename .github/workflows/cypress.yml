@@ -1,0 +1,57 @@
+# ============================================================
+# cypress.yml — GitHub Actions CI/CD 워크플로우
+# Python 프로젝트의 "테스트 실행" 을 자동화한 것
+#
+# 동작: GitHub에 코드 push 하면 자동으로 Cypress 테스트 실행
+# ============================================================
+
+name: Cypress E2E Tests
+
+# ── 언제 실행할지 ──────────────────────────────────────────────
+on:
+  push:
+    branches: [main]         # main 브랜치에 push 할 때
+  pull_request:
+    branches: [main]         # main 으로 PR 올릴 때
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest   # GitHub 서버 (Linux) 에서 실행
+
+    steps:
+      # 1. 코드 가져오기
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Node.js 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. 패키지 설치
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. smoke 테스트 실행 (빠른 검증)
+      - name: Run smoke tests
+        run: npm run cy:smoke
+        env:
+          CYPRESS_environment: staging   # 스테이징 환경에서 실행
+
+      # 5. 실패 시 스크린샷 업로드
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      # 6. Allure 결과 업로드
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results

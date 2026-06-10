@@ -1,0 +1,8 @@
+node_modules/
+cypress/videos/
+cypress/screenshots/
+cypress.env.json
+storage-state.json
+storage-state-dummy.json
+playwright-report/
+test-results/
