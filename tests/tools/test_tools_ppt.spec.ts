@@ -15,6 +15,7 @@ const DOWNLOAD_DIR = path.join(os.homedir(), 'Downloads')
 test.describe('[FHC-049~054] PPT 생성', () => {
 
   test('[FHC-049~054] PPT 생성 해피 케이스 (다운로드 포함)', { timeout: 180000 }, async ({ page }) => {
+    test.fixme(true, 'PPT 생성 기능 제거됨 — 에이전트 마켓플레이스에서 카드 없음')
     const tool = new ToolBasePage(page)
     await tool.navigateToTools()
 

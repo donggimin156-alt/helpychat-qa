@@ -24,7 +24,19 @@ export default async function globalSetup(): Promise<void> {
   await page.locator('[name="password"]').fill('qa3teamjs@')
   await page.getByRole('button', { name: '로그인' }).click()
   await page.waitForURL(/ai-helpy-chat/, { timeout: 30000 })
-  await page.waitForTimeout(2000)
+  await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => null)
+  // accounts.elice.io 세션을 storageState에 포함시키기 위해 사전 접속
+  // 직접 로그인 직후 OTP SSO를 소비 → 이후 테스트에서 accounts 페이지 직접 이동 가능
+  await page.goto('https://accounts.elice.io/accounts/members/account')
+  // OTP redirect 포함: accounts.elice.io/ → accounts/members/account
+  const accountsOk = await page.waitForURL(/accounts\/members\/account/, { timeout: 20000 })
+    .then(() => true).catch(() => false)
+  if (!accountsOk) {
+    console.log('⚠️  accounts.elice.io 세션 초기화 실패 — FHC-087~089, FHC-093 테스트는 skip될 수 있음')
+  } else {
+    console.log('✅ accounts.elice.io 세션 초기화 완료')
+    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null)
+  }
   await page.context().storageState({ path: 'storage-state.json' })
   await page.close()
 

@@ -2,12 +2,12 @@
   "name": "focus-project-cypress",
   "version": "1.0.0",
   "scripts": {
-    "test":          "playwright test",
-    "test:smoke":    "playwright test --grep @smoke",
-    "test:headed":   "playwright test --headed",
-    "test:ui":       "playwright test --ui",
-    "test:staging":  "cross-env ENVIRONMENT=staging playwright test",
-    "report":        "playwright show-report"
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:staging": "cross-env ENVIRONMENT=staging playwright test",
+    "report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
@@ -16,5 +16,8 @@
     "cypress": "^13.17.0",
     "cypress-mochawesome-reporter": "^4.0.2",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
   }
 }

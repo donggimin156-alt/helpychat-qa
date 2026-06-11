@@ -29,11 +29,10 @@ test.describe('[FHC-076~079] 마이페이지 프로필', () => {
   test('[FHC-078] 프로필 이미지 변경', async ({ page }) => {
     await page.goto(ACCOUNT_URL)
     await expect(page).toHaveURL(/members\/account/, { timeout: 15000 })
-    // 계정 관리 페이지 접근 및 프로필 이미지 편집 버튼 존재 확인
-    const editBtn = page.locator("//span[contains(@class,'MuiBadge-badge')]")
-    // 편집 버튼이 없어도 페이지 자체가 로드되면 통과 (이미지 파일 없어 실제 업로드 불가)
-    const pageLoaded = await page.locator('body').isVisible()
-    expect(pageLoaded).toBeTruthy()
+    // 실제 콘텐츠 로드 대기 (로딩 중 body가 invisible 상태일 수 있음)
+    await expect(page.getByText(/이름/).first()).toBeVisible({ timeout: 15000 })
+    // 편집 버튼 영역 확인 (이미지 파일 없어 실제 업로드 불가 — 페이지 구조만 검증)
+    await expect(page.locator('button.MuiIconButton-root').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('[FHC-079] 프로필 이미지 제거', async ({ page }) => {

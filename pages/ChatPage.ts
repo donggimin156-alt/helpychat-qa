@@ -16,7 +16,7 @@ export class ChatPage extends BasePage {
   get chatInput()     { return this.page.locator("textarea[name='input']") }
   get searchTab()     { return this.page.locator("//span[normalize-space(text())='검색' or normalize-space(text())='Search']/ancestor::*[@role='button' or self::a][1]") }
   get searchInput()   { return this.page.locator("//*[@role='dialog']//input") }
-  get searchResults() { return this.page.locator("//*[@role='dialog']//span[contains(@class,'MuiListItemText-primary')]") }
+  get searchResults() { return this.page.locator("[role='dialog'] a[href*='chats/']") }
 
   // ── 액션 ────────────────────────────────────────────────────
   async open(): Promise<void> {

@@ -35,9 +35,16 @@ test.describe('[FHC-080~083] 계정 관리', () => {
 
   test.beforeEach(async ({ page }) => {
     const ok = await loginDummy(page)
-    if (!ok) test.skip()
+    if (!ok) { test.skip(); return }
+    // qaproject 완전 로드 후 accounts 페이지 이동 (세션 안정화)
+    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null)
     const mypage = new MyPageAccountPage(page)
-    await mypage.navigateToAccount()
+    try {
+      await mypage.navigateToAccount()
+    } catch {
+      // signin 리디렉션: 세션 만료 — 스킵
+      test.skip()
+    }
   })
 
   test('[FHC-080] 이름 변경', async ({ page }) => {

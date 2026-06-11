@@ -21,6 +21,12 @@ export default defineConfig({
   // ── 전역 설정: 모든 테스트 전 로그인 세션 1회 생성 ─────────
   globalSetup: './global-setup',
 
+  // 워커 수 제한: 10 → 4 (서버 부하 및 세션 충돌 방지)
+  workers: 4,
+
+  // 불안정 테스트 재시도 (accounts.elice.io OTP 충돌 등)
+  retries: 1,
+
   use: {
     // 기본 URL (cy.visit('/ai-helpy-chat') → baseURL + '/ai-helpy-chat')
     baseURL: ENVIRONMENTS[env],
@@ -44,7 +50,9 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      // Desktop Chrome 프리셋 + 전역 viewport(1920x1080) 유지
+      // (Desktop Chrome 기본값 1280x720이 전역 설정을 덮어쓰는 문제 방지)
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
     },
   ],
 

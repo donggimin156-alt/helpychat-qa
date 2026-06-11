@@ -21,19 +21,25 @@ test.describe('[FHC-045~048] 수업지도안', () => {
     await expect(page).toHaveURL(/tools/, { timeout: 10000 })
 
     // [FHC-046] 필수 항목 선택 (학교급, 학년, 과목, 교육 내용, 수업 차시, 생성 방식)
-    // 드롭다운들 순서대로 선택
-    const dropdowns = page.locator('[aria-haspopup="listbox"]')
+    // lesson 드롭다운은 combobox role 사용 (aria-haspopup="listbox" 아닌 경우 대응)
+    const dropdowns = page.locator('[role="combobox"]')
     const dropdownCount = await dropdowns.count()
     for (let i = 0; i < Math.min(dropdownCount, 3); i++) {
       const dd = dropdowns.nth(i)
       if (await dd.isVisible({ timeout: 2000 }).catch(() => false)) {
         await dd.click()
-        await page.locator('[role="option"]').first().click()
+        const firstOption = page.locator('[role="option"]').first()
+        if (await firstOption.isVisible({ timeout: 2000 }).catch(() => false)) {
+          await firstOption.click()
+        } else {
+          await dd.press('Escape')
+        }
       }
     }
 
-    // 교육 내용 입력
-    const contentInput = page.locator('textarea[placeholder*="교육"], textarea[placeholder*="내용"]').first()
+    // 교육 내용 입력 — 실제 placeholder: "수업 주제를 입력해주세요."
+    // getByPlaceholder: input/textarea 구분 없이 placeholder 기반 검색
+    const contentInput = page.getByPlaceholder(/수업 주제|교육 내용/)
     if (await contentInput.isVisible({ timeout: 2000 }).catch(() => false)) {
       await contentInput.fill('수학 기초 연산')
     }

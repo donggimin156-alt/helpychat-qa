@@ -82,7 +82,8 @@ test.describe('[FHC-022~027] 채팅', () => {
     // LNB 대화 목록 표시 확인
     // Selenium: driver.find_elements() → assert len > 0
     // Playwright: expect(locator).not.toHaveCount(0)
-    const lnbChatList = page.locator('nav a[href*="chats/"], [class*="chat-list"] a').first()
+    // LNB 채팅 목록: complementary(aside) 내 chats/ 링크 (nav 아닌 aside 구조)
+    const lnbChatList = page.locator('aside a[href*="chats/"], [role="complementary"] a[href*="chats/"]').first()
     await expect(lnbChatList).toBeVisible({ timeout: 10000 })
 
     // 랜덤 대화 클릭 → 상세 화면 전환 확인

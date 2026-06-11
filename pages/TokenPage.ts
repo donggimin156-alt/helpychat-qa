@@ -7,7 +7,7 @@ export class TokenPage extends BasePage {
   readonly ADMIN_URL   = '/ai-helpy-chat/admin/general'
   readonly HISTORY_URL = '/ai-helpy-chat/admin/history'
 
-  get lnbTokenLink()      { return this.page.locator("a[href*='admin']").first() }
+  get lnbTokenLink()      { return this.page.locator("a[href*='admin/general']").first() }
   get tokenTable()        { return this.page.locator("table.MuiTable-root") }
   get allHistoryButton()  { return this.page.locator("//button[contains(normalize-space(),'전체 이용 내역') or contains(normalize-space(),'All History')] | //a[contains(normalize-space(),'전체 이용 내역') or contains(normalize-space(),'All History')]").first() }
   get chatInput()         { return this.page.locator("textarea[name='input']") }
@@ -36,7 +36,8 @@ export class TokenPage extends BasePage {
   }
 
   async isTokenTableDisplayed(): Promise<void> {
-    await expect(this.tokenTable).toBeVisible()
+    await this.page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => null)
+    await expect(this.tokenTable).toBeVisible({ timeout: 20000 })
   }
 
   async sendChatMessage(message: string): Promise<void> {
