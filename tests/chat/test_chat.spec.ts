@@ -18,11 +18,9 @@ test.describe('[FHC-022~027] 채팅', () => {
     const chatPage = new ChatPage(page)
     await chatPage.open()
 
-    // 토큰 배너 닫기 (Cypress의 cy.closeTokenBanner() 와 동일)
-    const banner = page.locator('[data-testid*="xmark"]')
-    if (await banner.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await banner.click()
-    }
+    // 토큰 배너 닫기 (ToolBasePage.open() 과 동일한 셀렉터)
+    await page.locator('button:has([data-testid="xmark-largeIcon"])').first()
+      .click().catch(() => null)
   })
 
   // ── smoke ───────────────────────────────────────────────────

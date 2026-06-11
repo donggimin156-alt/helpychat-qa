@@ -5,31 +5,15 @@
 
 import { test, expect } from '@playwright/test'
 import { MyPageAccountPage } from '../../pages/MyPageAccountPage'
+import users from '../../fixtures/users.json'
+import { loginDummy } from '../helpers/auth'
+import { ACCOUNT_URL } from '../helpers/urls'
 
-const DUMMY_EMAIL    = 'test_dummy@naver.com'
-const DUMMY_PASSWORD = 'test@1234'
-const NEW_PASSWORD   = 'test@4321'
-const NEW_NAME       = '포커스 테스트'
-
-const ACCOUNT_URL = 'https://accounts.elice.io/accounts/members/account'
+const NEW_PASSWORD = 'test@4321'
+const NEW_NAME     = '포커스 테스트'
 
 // dummy 계정은 별도 로그인 (default storageState 안씀)
 test.use({ storageState: { cookies: [], origins: [] } })
-
-// OTP 발생 여부 확인
-async function loginDummy(page: any): Promise<boolean> {
-  const LOGIN_URL =
-    'https://accounts.elice.io/accounts/signin/me' +
-    '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-    '&lang=ko-KR&org=qaproject'
-  await page.goto(LOGIN_URL)
-  await page.locator('[name="loginId"]').fill(DUMMY_EMAIL)
-  await page.locator('[name="password"]').fill(DUMMY_PASSWORD)
-  await page.getByRole('button', { name: '로그인' }).click()
-  await page.waitForURL(/ai-helpy-chat|otp/, { timeout: 30000 })
-  if (page.url().includes('otp')) return false  // OTP 발생
-  return true
-}
 
 test.describe('[FHC-080~083] 계정 관리', () => {
 
@@ -60,13 +44,13 @@ test.describe('[FHC-080~083] 계정 관리', () => {
 
     // 변경
     await mypage.clickPasswordEdit()
-    await mypage.changePassword(DUMMY_PASSWORD, NEW_PASSWORD)
+    await mypage.changePassword(users.dummy.pw, NEW_PASSWORD)
     await mypage.isSaveSuccessToastDisplayed()
 
     // 복구 (teardown)
     await mypage.navigateToAccount()
     await mypage.clickPasswordEdit()
-    await mypage.changePassword(NEW_PASSWORD, DUMMY_PASSWORD)
+    await mypage.changePassword(NEW_PASSWORD, users.dummy.pw)
   })
 
   test('[FHC-082] 프로모션 알림 토글', async ({ page }) => {

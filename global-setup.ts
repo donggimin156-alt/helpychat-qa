@@ -8,11 +8,7 @@
 // ============================================================
 
 import { chromium } from '@playwright/test'
-
-const LOGIN_URL =
-  'https://accounts.elice.io/accounts/signin/me' +
-  '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-  '&lang=ko-KR&org=qaproject'
+import { LOGIN_URL } from './tests/helpers/urls'
 
 export default async function globalSetup(): Promise<void> {
   const browser = await chromium.launch()

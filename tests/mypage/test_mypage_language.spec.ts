@@ -4,26 +4,17 @@
 
 import { test, expect } from '@playwright/test'
 import { MyPageAccountPage } from '../../pages/MyPageAccountPage'
-
-const DUMMY_EMAIL    = 'test_dummy@naver.com'
-const DUMMY_PASSWORD = 'test@1234'
-const LANGUAGE_URL   = 'https://accounts.elice.io/accounts/members/language'
-
-const LOGIN_URL =
-  'https://accounts.elice.io/accounts/signin/me' +
-  '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-  '&lang=ko-KR&org=qaproject'
+import users from '../../fixtures/users.json'
+import { loginDummy } from '../helpers/auth'
+import { LANGUAGE_URL, ACCOUNT_URL } from '../helpers/urls'
 
 test.use({ storageState: { cookies: [], origins: [] } })
 
 test.describe('[FHC-090~092] 언어 설정', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(LOGIN_URL)
-    await page.locator('[name="loginId"]').fill(DUMMY_EMAIL)
-    await page.locator('[name="password"]').fill(DUMMY_PASSWORD)
-    await page.getByRole('button', { name: '로그인' }).click()
-    await expect(page).toHaveURL(/ai-helpy-chat/, { timeout: 30000 })
+    const ok = await loginDummy(page)
+    if (!ok) { test.skip(); return }
   })
 
   test('[FHC-090] 언어 변경 국가 설정', async ({ page }) => {
@@ -50,7 +41,7 @@ test.describe('[FHC-090~092] 언어 설정', () => {
     await mypage.changeLanguage('ko-KR')
 
     // 로그아웃
-    await page.goto('https://accounts.elice.io/accounts/members/account')
+    await page.goto(ACCOUNT_URL)
     await page.locator('button.MuiAvatar-root').click()
     await page.locator("[data-testid='arrow-right-from-bracketIcon']").click()
     await expect(page).toHaveURL(/signin/, { timeout: 10000 })
@@ -70,14 +61,14 @@ test.describe('[FHC-090~092] 언어 설정', () => {
     await mypage.changeLanguage('ko-KR')
 
     // 로그아웃
-    await page.goto('https://accounts.elice.io/accounts/members/account')
+    await page.goto(ACCOUNT_URL)
     await page.locator('button.MuiAvatar-root').click()
     await page.locator("[data-testid='arrow-right-from-bracketIcon']").click()
     await expect(page).toHaveURL(/signin/, { timeout: 10000 })
 
     // 재로그인
-    await page.locator('[name="loginId"]').fill(DUMMY_EMAIL)
-    await page.locator('[name="password"]').fill(DUMMY_PASSWORD)
+    await page.locator('[name="loginId"]').fill(users.dummy.id)
+    await page.locator('[name="password"]').fill(users.dummy.pw)
     await page.getByRole('button', { name: /로그인|Sign in/i }).click()
     await expect(page).toHaveURL(/ai-helpy-chat/, { timeout: 30000 })
 

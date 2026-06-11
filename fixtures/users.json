@@ -6,5 +6,9 @@
   "dummy": {
     "id": "test_dummy@naver.com",
     "pw": "test@1234"
+  },
+  "nonAdmin": {
+    "id": "elice_3@naver.com",
+    "pw": "asd123!!"
   }
 }

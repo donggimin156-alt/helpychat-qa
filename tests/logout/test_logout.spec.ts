@@ -6,28 +6,15 @@
 import { test, expect } from '@playwright/test'
 import { LogoutPage } from '../../pages/LogoutPage'
 import users from '../../fixtures/users.json'
-
-const LOGIN_URL =
-  'https://accounts.elice.io/accounts/signin/me' +
-  '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-  '&lang=ko-KR&org=qaproject'
+import { loginDefault } from '../helpers/auth'
 
 // 격리된 세션 사용 (공유 session 오염 방지)
 test.use({ storageState: { cookies: [], origins: [] } })
 
-// 직접 UI 로그인 후 반환
-async function loginDirect(page: any) {
-  await page.goto(LOGIN_URL)
-  await page.locator('[name="loginId"]').fill(users.default.id)
-  await page.locator('[name="password"]').fill(users.default.pw)
-  await page.getByRole('button', { name: '로그인' }).click()
-  await expect(page).toHaveURL(/ai-helpy-chat/, { timeout: 30000 })
-}
-
 test.describe('[FHC-014~017] 로그아웃', () => {
 
   test('[FHC-014] 로그아웃 완료 URL 검증 @smoke', async ({ page }) => {
-    await loginDirect(page)
+    await loginDefault(page)
     const logout = new LogoutPage(page)
     await logout.clickProfile()
     await logout.clickLogout()
@@ -38,7 +25,7 @@ test.describe('[FHC-014~017] 로그아웃', () => {
 
     // 각 테스트마다 UI 로그인 → 로그아웃 → 재로그인 시나리오 준비
     test.beforeEach(async ({ page }) => {
-      await loginDirect(page)
+      await loginDefault(page)
       const logout = new LogoutPage(page)
       await logout.clickProfile()
       await logout.clickLogout()

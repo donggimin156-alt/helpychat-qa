@@ -11,47 +11,23 @@
 // ============================================================
 
 import { test, expect } from '@playwright/test'
-
-const ORG_URL = 'https://accounts.elice.io/accounts/members/organizations'
-
-const MAIN_EMAIL    = 'qa5team3-04@elicer.com'
-const MAIN_PASSWORD = 'qa3teamjs@'
-
-const LOGIN_URL =
-  'https://accounts.elice.io/accounts/signin/me' +
-  '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-  '&lang=ko-KR&org=qaproject'
+import { loginMain } from '../helpers/auth'
+import { ORG_URL, ACCOUNT_URL } from '../helpers/urls'
 
 // storageState 비활성화 — 직접 로그인으로 accounts.elice.io 세션 보장
 test.use({ storageState: { cookies: [], origins: [] } })
 
-async function loginMain(page: any): Promise<boolean> {
-  await page.goto(LOGIN_URL)
-  await page.locator('[name="loginId"]').fill(MAIN_EMAIL)
-  await page.locator('[name="password"]').fill(MAIN_PASSWORD)
-  await page.getByRole('button', { name: '로그인' }).click()
-  await page.waitForURL(/ai-helpy-chat|otp/, { timeout: 30000 })
-  if (page.url().includes('otp')) return false
-  return true
-}
-
 test.describe('[FHC-087~089] 내 기관', () => {
 
   test.beforeEach(async ({ page }) => {
+    // loginMain: 로그인 + ACCOUNT_URL 세션 안정화까지 포함 (auth.ts)
     const ok = await loginMain(page)
     if (!ok) { test.skip(); return }
-    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null)
-    // account 페이지 먼저 방문 → OTP 흐름 소비 + 세션 안정화
-    await page.goto('https://accounts.elice.io/accounts/members/account')
-    const accountsOk = await page.waitForURL(/accounts\/members\/account/, { timeout: 20000 })
-      .then(() => true).catch(() => false)
-    if (!accountsOk) { test.skip(); return }
     await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => null)
     // OTP 인터럽션 대응: waitUntil:'commit' 로 먼저 commit 후 URL 대기
     await page.goto(ORG_URL, { waitUntil: 'commit' }).catch(() => null)
     await page.waitForURL(/organizations|members\/account/, { timeout: 20000 }).catch(() => null)
-    const onOrgPage = page.url().includes('organizations')
-    if (!onOrgPage) { test.skip(); return }
+    if (!page.url().includes('organizations')) { test.skip(); return }
   })
 
   test('[FHC-087] 내 기관 UI 및 정보 표시', async ({ page }) => {

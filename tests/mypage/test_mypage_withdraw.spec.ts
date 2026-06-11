@@ -4,29 +4,16 @@
 
 import { test, expect } from '@playwright/test'
 import { MyPageWithdrawPage } from '../../pages/MyPageWithdrawPage'
+import users from '../../fixtures/users.json'
+import { loginDummy } from '../helpers/auth'
 
-const DUMMY_EMAIL    = 'test_dummy@naver.com'
-const DUMMY_PASSWORD = 'test@1234'
-const DUMMY_NAME     = '포커스 테스트'
-
-const LOGIN_URL =
-  'https://accounts.elice.io/accounts/signin/me' +
-  '?continue_to=https%3A%2F%2Fqaproject.elice.io%2Fai-helpy-chat' +
-  '&lang=ko-KR&org=qaproject'
+const DUMMY_NAME = '포커스 테스트'
 
 test.use({ storageState: { cookies: [], origins: [] } })
 
 test('[FHC-084~086] 계정 탈퇴 해피 케이스', { timeout: 120000 }, async ({ page }) => {
-  // 로그인
-  await page.goto(LOGIN_URL)
-  await page.locator('[name="loginId"]').fill(DUMMY_EMAIL)
-  await page.locator('[name="password"]').fill(DUMMY_PASSWORD)
-  await page.getByRole('button', { name: '로그인' }).click()
-  await page.waitForURL(/ai-helpy-chat|otp/, { timeout: 30000 })
-  if (page.url().includes('otp')) {
-    test.skip()
-    return
-  }
+  const ok = await loginDummy(page)
+  if (!ok) { test.skip(); return }
   await expect(page).toHaveURL(/ai-helpy-chat/, { timeout: 5000 })
   await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => null)
 
@@ -49,14 +36,14 @@ test('[FHC-084~086] 계정 탈퇴 해피 케이스', { timeout: 120000 }, async 
   expect(hasConfirm).toBeTruthy()
 
   // FHC-086: 탈퇴 실행
-  await withdraw.enterWithdrawConfirmText(DUMMY_EMAIL)
+  await withdraw.enterWithdrawConfirmText(users.dummy.id)
   await withdraw.submitWithdraw()
   const isComplete = await withdraw.isWithdrawalComplete()
   expect(isComplete).toBeTruthy()
 
   // 인프라: 재가입 복구
   await page.goto('https://qaproject.elice.io/ai-helpy-chat')
-  await withdraw.signup(DUMMY_EMAIL, DUMMY_PASSWORD, DUMMY_NAME)
+  await withdraw.signup(users.dummy.id, users.dummy.pw, DUMMY_NAME)
   const signupOk = await withdraw.isSignupSuccess()
   expect(signupOk).toBeTruthy()
 })
