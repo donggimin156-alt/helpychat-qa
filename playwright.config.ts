@@ -47,11 +47,11 @@ export default defineConfig({
   },
 
   // ── 브라우저 설정 ─────────────────────────────────────────
+  // 부하 테스트(performance)는 순차 실행 필요 → playwright.performance.config.ts 별도 실행
   projects: [
     {
       name: 'chromium',
-      // Desktop Chrome 프리셋 + 전역 viewport(1920x1080) 유지
-      // (Desktop Chrome 기본값 1280x720이 전역 설정을 덮어쓰는 문제 방지)
+      testIgnore: /performance/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1920, height: 1080 } },
     },
   ],

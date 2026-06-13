@@ -73,7 +73,12 @@ export class ToolBasePage extends BasePage {
   }
 
   async isToolsListDisplayed(): Promise<boolean> {
-    return await this.toolCards.first().isVisible({ timeout: 10000 }).catch(() => false)
+    try {
+      await this.toolCards.first().waitFor({ state: 'visible', timeout: 15000 })
+      return true
+    } catch {
+      return false
+    }
   }
 
   async isGenerateBtnEnabled(): Promise<boolean> {
