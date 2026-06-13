@@ -44,4 +44,11 @@ playwright 브랜치
 - selenium 브랜치의 3계층 POM 구조를 그대로 유지하면서 TypeScript로 재작성
 - 팝업 처리, 탭 전환 방식 등 Selenium 특유의 패턴을 Playwright 방식으로 교체
 
-테스트 케이스 61개, Failed 0
+기능 테스트 61개 (npx playwright test), Failed 0
+부하 테스트 6개 (npx playwright test --config=playwright.performance.config.ts), 별도 실행
+
+부하 테스트를 기본 실행에서 분리한 이유:
+부하 테스트는 AI 응답 대기, accounts.elice.io 세션 등 실제 서버 응답 시간이 포함되어 순차 실행(workers: 1)이 강제됩니다.
+병렬 실행이 불가능하기 때문에 Playwright의 핵심 장점인 병렬 실행 속도 우위를 정확히 측정하려면
+기능 테스트만을 비교 대상으로 삼아야 합니다.
+부하 테스트 코드는 playwright.performance.config.ts로 분리하여 독립 실행이 가능합니다.
