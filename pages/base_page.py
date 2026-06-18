@@ -78,6 +78,26 @@ class BasePage:
         """URL에 특정 텍스트가 포함될 때까지 대기"""
         self.wait.until(EC.url_contains(text))
 
+    # ========== 존재/URL 여부 (boolean) ==========
+
+    def is_present(self, locator, timeout=None):
+        """요소가 DOM에 존재할 때까지 대기 → 존재하면 True, 타임아웃이면 False"""
+        w = self.wait if timeout is None else WebDriverWait(self.driver, timeout)
+        try:
+            w.until(EC.presence_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+
+    def is_url_contains(self, text, timeout=None):
+        """URL에 특정 텍스트가 포함될 때까지 대기 → 포함되면 True, 타임아웃이면 False"""
+        w = self.wait if timeout is None else WebDriverWait(self.driver, timeout)
+        try:
+            w.until(EC.url_contains(text))
+            return True
+        except TimeoutException:
+            return False
+
     def wait_backdrop_gone(self, timeout=5):
         """MUI Backdrop(딤 레이어)이 사라질 때까지 대기"""
         try:

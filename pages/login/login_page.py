@@ -6,7 +6,7 @@ BasePage를 상속받아 공통 동작을 재사용합니다.
 한글 버전 로그인 페이지(lang=ko-KR) 기준으로 구현되었습니다.
 """
 
-from config.selenium_imports import By, EC, TimeoutException
+from config.selenium_imports import By, EC
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -44,13 +44,7 @@ class LoginPage(BasePage):
 
     def is_terms_popup_displayed(self):
         """약관 동의 팝업(체크박스) 표시 여부 확인 (3초 이내)"""
-        try:
-            WebDriverWait(self.driver, 3).until(
-                EC.presence_of_element_located(self.AGREE_ALL_CHECKBOX)
-            )
-            return True
-        except TimeoutException:
-            return False
+        return self.is_present(self.AGREE_ALL_CHECKBOX, timeout=3)
 
     def agree_and_submit(self):
         """
@@ -128,11 +122,7 @@ class LoginPage(BasePage):
         [로그인 성공 검증]
         URL에 'ai-helpy-chat'이 포함되면 로그인 성공으로 간주한다.
         """
-        try:
-            self.wait_for_url_contains("ai-helpy-chat")
-            return True
-        except TimeoutException:
-            return False
+        return self.is_url_contains("ai-helpy-chat")
 
     def is_pwd_masked(self):
         """비밀번호 입력 필드의 type이 'password'인지 확인한다. (마스킹 상태)"""

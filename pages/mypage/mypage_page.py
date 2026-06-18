@@ -28,11 +28,6 @@ class MyPage(BasePage):
     MAIN_EMAIL    = "test_dummy@naver.com"
     MAIN_PASSWORD = "test@1234"
 
-    # ========== Locators — 로그인 ==========
-    EMAIL_INPUT    = (By.CSS_SELECTOR, "input[type='email']")
-    PASSWORD_INPUT = (By.CSS_SELECTOR, "input[type='password']")
-    SUBMIT_BUTTON  = (By.CSS_SELECTOR, "button[type='submit']")
-
     # ========== Locators — qaproject 헤더 ==========
     PROFILE_BUTTON    = (By.CSS_SELECTOR, "button.MuiAvatar-root")
     ACCOUNT_MENU_ITEM = (By.XPATH,
@@ -136,11 +131,7 @@ class MyPage(BasePage):
             return False
 
     def is_on_org_page(self) -> bool:
-        try:
-            self.wait.until(EC.url_contains("members/organization"))
-            return True
-        except Exception:
-            return False
+        return self.is_url_contains("members/organization")
 
     def is_new_tab_opened(self, original_handles: list) -> bool:
         try:

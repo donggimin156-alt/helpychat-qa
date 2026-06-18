@@ -1,4 +1,4 @@
-# common/config.py
+# config/settings.py
 # 프로젝트 전체 공통 상수 — URL, 계정, 대기시간, 경로
 
 import os

@@ -1,4 +1,4 @@
-# config/helpers.py
+# config/login_helpers.py
 # 공통 유틸리티 함수 (로그인, 배너 닫기 등)
 
 from selenium.webdriver.common.by import By
